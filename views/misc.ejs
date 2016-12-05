@@ -1,0 +1,292 @@
+<html>
+<head>
+<title>Eg - Miscellaneous JS</title>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script language="Javascript">
+  function egMakeMultiFileList() {
+    var input = document.getElementById("egMultiFile");
+    var ul = document.getElementById("egMultiFileList");
+    while (ul.hasChildNodes()) {
+      ul.removeChild(ul.firstChild);
+    }
+    for (var i = 0; i < input.files.length; i++) {
+      var li = document.createElement("li");
+      li.innerHTML = input.files[i].name;
+      ul.appendChild(li);
+    }
+    if(!ul.hasChildNodes()) {
+      var li = document.createElement("li");
+      li.innerHTML = 'No files selected';
+      ul.appendChild(li);
+    }
+  }
+</script>
+<script language="Javascript">
+  $(document).ready(function () {
+
+	  $('#egClear').click(function () {
+      $('#egInput').val('');
+      $('#egResult').val('');
+	  });
+
+    $('#egReset').click(function () {
+      $('#egPattern').val('');
+      $('#egModifier').val('');
+      $('#egInput').val('');
+      $('#egResult').val('');
+    });
+
+	  $('#egTest').click(function () {
+      var pattern = $('#egPattern').val();
+      var modifier = $('#egModifier').val();
+      var testInput = $('#egInput').val();
+
+      try {
+        var regExPattern = new RegExp(pattern, modifier);
+        if (regExPattern.test(testInput)) {
+          $('#egResult').val('matched');
+        } else {
+          $('#egResult').val('not matched');
+        }
+      }
+      catch (e) {
+		  $('#egResult').val(e.message);
+        }
+	  });
+
+	  $('#egExpTest').click(function () {
+      var jsExp = $('#egExpInput').val();
+      eval(jsExp);
+	  });
+
+	  $('#egScroll').click(function () {
+      $(window).scrollTop($('#egScrollMidPoint').offset().top);
+	  });
+
+	  $('#egScrollAnimate').click(function () {
+      $('html, body').animate({ 'scrollTop' : $('#egScrollMidPoint').offset().top }, 1000);
+	  });
+
+	  $('#egFTAction').click(function () {
+      var furGroup = $('#egFurniture').val().split(',');
+      var kndGroup = $('#egKnD').val().split(',');
+      var decGroup = $('#egDecor').val().split(',');
+      var bnbGroup = $('#egBnB').val().split(',');
+      var homeGroup = [], j = 0, n = 10;
+
+      if (n > furGroup.length) {
+        n = furGroup.length;
+      }
+      if (n > kndGroup.length) {
+        n = kndGroup.length;
+      }
+      if (n > decGroup.length) {
+        n = decGroup.length;
+      }
+      if (n > bnbGroup.length) {
+        n = bnbGroup.length;
+      }
+
+      for (var i = 0; i < n; i++) {
+        homeGroup[j++] = furGroup[i];
+        homeGroup[j++] = kndGroup[i];
+        homeGroup[j++] = decGroup[i];
+        homeGroup[j++] = bnbGroup[i];
+      }
+
+      $('#egHome').text(homeGroup.join(', '));
+	  });
+
+    $('#egIframeReload').click(function () {
+      $('#egExtIFrame').attr("src", $('#egExtIFrame').attr("src"));
+    });
+
+  });
+</script>
+</head>
+
+<body>
+<h4>Scroll Test - Start</h4>
+<table width='100%'>
+  <tr>
+    <td width='10%' align='right'>Move Down</td>
+    <td width='1%'>&nbsp;</td>
+    <td>
+      <button id='egScroll' name='egScroll'>Scroll Down</button>
+      &nbsp;
+      <button id='egScrollAnimate' name='egScrollAnimate'>Scroll Down. Slowly...</button>
+    </td>
+  </tr>
+</table>
+
+<h4>Regular Expression Tester</h4>
+<!-- form id='egForm' name='egForm' -->
+<table width='100%'>
+<tr>
+  <td width='10%' align='right'>Pattern</td>
+  <td width='1%'>&nbsp;</td>
+  <td width='20%'><input type='text' id='egPattern' name='egPattern' value='' size='40' /></td>
+  <td width='10%' align='right'>Modifier</td>
+  <td width='1%'>&nbsp;</td>
+  <td><input type='text' id='egModifier' name='egModifier' value='' size='40' /></td>
+</tr>
+<tr>
+  <td align='right'>Test Input</td>
+  <td width='1%'>&nbsp;</td>
+  <td colspan='4'><input type='text' id='egInput' name='egInput' value='' size='40' /></td>
+</tr>
+<tr>
+  <td colspan='2'></td>
+  <td colspan='4'>
+    <button id='egTest' name='egTest'>Test</button>
+	&nbsp;
+    <button id='egClear' name='egClear'>Clear</button>
+  &nbsp;
+    <button id='egReset' name='egReset'>Reset</button>
+  </td>
+</tr>
+<tr>
+  <td height='10' colspan='6'></td>
+</tr>
+<tr>
+  <td align='right'>Result</td>
+  <td width='1%'>&nbsp;</td>
+  <td colspan='4'><input type='text' id='egResult' name='egResult' value='' size='125' disabled='true' /></td>
+</tr>
+</table>
+
+<h4>Iframe - External Site</h4>
+<table width='100%'>
+<tr>
+  <td width='10%' align='right'>Wikipedia</td>
+  <td width='1%'>&nbsp;</td>
+  <td><iframe id="egExtIFrame" src="http://en.wikipedia.org/wiki/Main_Page" width="66%" height="200"></iframe></td>
+</tr>
+<tr>
+  <td colspan=2></td>
+  <td><button id='egIframeReload' name='egIframeReload'>Reload</button></td>
+</tr>
+</table>
+
+<h4>Iframe - Internal Site</h4>
+<table width='100%'>
+<tr>
+  <td width='10%' align='right'>Local HTML</td>
+  <td width='1%'>&nbsp;</td>
+  <td><iframe src="/content/eg.html" width="66%" height="200"></iframe></td>
+</tr>
+</table>
+
+<h4>JS Evaluator</h4>
+<table width='100%'>
+  <tr>
+    <td width='10%' align='right'>Tick Mark</td>
+    <td width='1%'>&nbsp;</td>
+    <td>&#10004; (# 10004 ;)</td>
+  </tr>
+  <tr>
+    <td align='right'>Expression</td>
+    <td width='1%'>&nbsp;</td>
+    <td>
+      <textarea id='egExpInput' name='egExpInput' rows='15' cols='95'>
+        //Put your Javascript expression / script here
+        try{
+          var a = {'1' : 'one', '2' : 'two', '3' : 'three', '4' : 'four'};
+          var b = Object.keys(a);
+          var i = 0, values = [];
+          for (i; i < b.length; i++)
+            values[i] = a[b[i]];
+          alert(values.join(' | '));
+        } catch(exc) {
+          alert(exc.message);
+        }
+      </textarea>
+    </td>
+  </tr>
+  <tr>
+    <td colspan='2'>&nbsp;</td>
+    <td><button id='egExpTest' name='egExpTest'>Evaluate</button></td>
+  </tr>
+</table>
+
+<h4>Friday Tool</h4>
+<table width='100%'>
+  <tr>
+    <td width='10%' align='right'>Furniture</td>
+    <td width='1%'>&nbsp;</td>
+    <td ><input type='text' id='egFurniture' name='egFurniture' value='' size='125' /></td>
+  </tr>
+  <tr>
+    <td align='right'>K & D</td>
+    <td>&nbsp;</td>
+    <td><input type='text' id='egKnD' name='egKnD' value='' size='125' /></td>
+  </tr>
+  <tr>
+    <td align='right'>Decor</td>
+    <td>&nbsp;</td>
+    <td><input type='text' id='egDecor' name='egDecor' value='' size='125' /></td>
+  </tr>
+  <tr>
+    <td align='right'>B & B</td>
+    <td>&nbsp;</td>
+    <td><input type='text' id='egBnB' name='egBnB' value='' size='125' /></td>
+  </tr>
+  <tr>
+    <td align='right'>Expression</td>
+    <td width='1%'>&nbsp;</td>
+    <td>
+      <span id='egHome'>output comes here</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan='2'>&nbsp;</td>
+    <td><button id='egFTAction' name='egFTAction'>Distribute</button></td>
+  </tr>
+</table>
+
+<h4>File Upload</h4>
+<table width='100%'>
+  <tr>
+    <td width='10%' align='right'>Single File</td>
+    <td width='1%'>&nbsp;</td>
+    <td ><input type='file' id='egSingleFile' name='egSingleFile'/></td>
+  </tr>
+  <tr>
+    <td width='10%' align='right'>Multiple Files</td>
+    <td width='1%'>&nbsp;</td>
+    <td ><input type='file' id='egMultiFile' name='egMultiFile' multiple onChange='egMakeMultiFileList();'/></td>
+  </tr>
+  <tr>
+    <td width='10%' align='right'></td>
+    <td width='1%'>&nbsp;</td>
+    <td ><ul id="egMultiFileList"><li>No files selected</li></ul></td>
+  </tr>
+</table>
+
+<h4 id='egScrollMidPoint'>Scroll Test - End</h4>
+<table width='100%'>
+  <tr>
+    <td width='10%' align='right'>This is down</td>
+    <td width='1%'>&nbsp;</td>
+    <td>&#10004;</td>
+  </tr>
+  <tr>
+    <td colspan='2'></td>
+    <td>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </td>
+  </tr>
+</table>
+<!-- /form -->
+</body>
+</html>
