@@ -1,0 +1,21 @@
+{
+  "name": "egapp",
+  "version": "1.0.0",
+  "description": "This is an example node app - retrieved reformation.",
+  "main": "app.js",
+  "scripts": {
+    "test": "TBD"
+  },
+  "repository": {
+    "type": "git",
+    "url": "TBD"
+  },
+  "keywords": [
+    "TBD"
+  ],
+  "author": "neo",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
