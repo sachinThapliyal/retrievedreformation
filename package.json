@@ -4,6 +4,7 @@
   "description": "This is an example node app - retrieved reformation.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "TBD"
   },
   "repository": {
