@@ -5,7 +5,7 @@ var routes = express.Router();
 
 //router for root
 routes.get('/', function(req, res){
-  res.send('<html><head><title>Retrieved Reformation</title></head><body><p><b><i>Retrieved Reformation</i></b></body></html>');
+  res.render('index');
 });
 
 //router for /misc
